@@ -8,8 +8,8 @@ using WebApplicationTest1.service.impl;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllers();
+
 // registering repos
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
@@ -17,6 +17,7 @@ builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
 
 // registering services
 builder.Services.AddScoped<IDepartmentService, DepartmentService>();
+builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 
 
 builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
