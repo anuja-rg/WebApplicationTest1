@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using WebApplicationTest1;
+using WebApplicationTest1.Controllers;
 using WebApplicationTest1.repository;
 using WebApplicationTest1.repository.repoImpl;
 using WebApplicationTest1.service;
@@ -9,6 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllers();
+
 
 // registering repos
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));

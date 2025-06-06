@@ -1,20 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WebApplicationTest1.dto;
 using WebApplicationTest1.service;
-using WebApplicationTest1.service.impl;
 
 namespace WebApplicationTest1.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class EmployeeController : ControllerBase
+    public class EmployeeController(IEmployeeService employeeService) : ControllerBase
     {
-        private readonly EmployeeService _employeeService;
-
-        public EmployeeController(EmployeeService employeeService)
-        {
-            _employeeService = employeeService;
-        }
+        private readonly IEmployeeService _employeeService = employeeService ?? throw new ArgumentNullException(nameof(employeeService));
 
         [HttpGet]
         public ActionResult<string> Get()
@@ -23,7 +17,7 @@ namespace WebApplicationTest1.Controllers
         }
 
         [HttpPost]
-        public ActionResult<EmployeeDto> AddEmployee([FromBody] EmployeeDto employeeDto)
+        public async Task<IActionResult> AddEmployee([FromBody] EmployeeDto employeeDto)
         {
             if (employeeDto == null)
             {
@@ -31,8 +25,8 @@ namespace WebApplicationTest1.Controllers
             }
             try
             {
-                var result = _employeeService.CreateAsync(employeeDto).GetAwaiter().GetResult();
-                return CreatedAtAction(nameof(Get), new { id = employeeDto.Id }, result);
+                var result = await _employeeService.CreateAsync(employeeDto);
+                return Ok(result);
             }
             catch (ArgumentException ex)
             {

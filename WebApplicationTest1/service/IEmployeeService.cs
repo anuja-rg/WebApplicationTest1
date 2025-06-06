@@ -6,7 +6,7 @@ namespace WebApplicationTest1.service
 {
     public interface IEmployeeService
     {
-        Task<IEnumerable<EmployeeDto>> CreateAsync(EmployeeDto employeeDto);
+        Task<EmployeeDto> CreateAsync(EmployeeDto employeeDto);
         Task<IEnumerable<EmployeeProjectDto>> GetEmployeesWithProjects();
     }
 }

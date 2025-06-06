@@ -9,12 +9,12 @@ namespace WebApplicationTest1.service.impl
         private readonly IEmployeeRepository _employeeRepository = employeeRepository ?? throw new ArgumentNullException(nameof(employeeRepository));
         private readonly IDepartmentRepository _departmentRepository = departmentRepository ?? throw new ArgumentNullException(nameof(departmentRepository));
 
-        public async Task<IEnumerable<EmployeeDto>> CreateAsync(EmployeeDto employeeDto)
+        public async Task<EmployeeDto> CreateAsync(EmployeeDto employeeDto)
         {
             var existingDepartment = await _departmentRepository.GetByIdAsync(employeeDto.DepartmentId) ?? throw new ArgumentException($"Department with ID {employeeDto.DepartmentId} does not exist.");
             Employee employee = new()
             {
-                Id = employeeDto.Id,
+                //Id = employeeDto.Id,
                 Name = employeeDto.Name,
                 Age = employeeDto.Age,
                 DepartmentId = employeeDto.DepartmentId,
@@ -22,8 +22,20 @@ namespace WebApplicationTest1.service.impl
                 EmployeeProjects = []
             };
 
-            var addedEmployee = await _employeeRepository.AddAsync(employee);
-            return (IEnumerable<EmployeeDto>)(addedEmployee ?? throw new InvalidOperationException("Failed to add the employee."));
+            var addedEmployee = await _employeeRepository.AddAsync(employee)
+                ?? throw new InvalidOperationException("Failed to add the employee.");
+
+            EmployeeDto addedEmployeeDto = new()
+            {
+                Id = addedEmployee.Id,
+                Name = addedEmployee.Name,
+                Age = addedEmployee.Age,
+                DepartmentId = addedEmployee.DepartmentId
+            };
+
+
+            return addedEmployeeDto;
+            
         }
 
         public Task<bool> DeleteAsync(int id)
