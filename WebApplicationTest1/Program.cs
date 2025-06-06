@@ -5,11 +5,15 @@ using WebApplicationTest1.repository;
 using WebApplicationTest1.repository.repoImpl;
 using WebApplicationTest1.service;
 using WebApplicationTest1.service.impl;
+using WebApplicationTest1.validator;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllers();
+
+// registering validators
+//builder.Services.AddScoped<EmployeeValidator>();
 
 
 // registering repos

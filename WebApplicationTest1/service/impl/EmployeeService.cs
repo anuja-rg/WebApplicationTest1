@@ -27,7 +27,7 @@ namespace WebApplicationTest1.service.impl
 
             EmployeeDto addedEmployeeDto = new()
             {
-                Id = addedEmployee.Id,
+                //Id = addedEmployee.Id,
                 Name = addedEmployee.Name,
                 Age = addedEmployee.Age,
                 DepartmentId = addedEmployee.DepartmentId
