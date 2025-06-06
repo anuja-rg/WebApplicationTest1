@@ -4,10 +4,8 @@ using WebApplicationTest1.models;
 
 namespace WebApplicationTest1.repository.repoImpl
 {
-    public class EmployeeRepository: Repository<Employee>, IEmployeeRepository
+    public class EmployeeRepository(AppDbContext context) : Repository<Employee>(context), IEmployeeRepository
     {
-        public EmployeeRepository(AppDbContext context) : base(context) {}
-
         public async Task<IEnumerable<Employee>> GetEmployeeByProjectAsync(int projectId)
         {
             return await _context.EmployeeProjects
@@ -52,5 +50,10 @@ namespace WebApplicationTest1.repository.repoImpl
                 { DepartmentId = g.Key, EmployeeCount = g.Count() })
                 .ToListAsync();
         }
+
+        //IEnumerable<Employee> IEmployeeRepository.AddAsync(Employee employee)
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 }

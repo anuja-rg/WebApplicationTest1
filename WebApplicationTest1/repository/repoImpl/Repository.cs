@@ -13,11 +13,17 @@ namespace WebApplicationTest1.repository.repoImpl
             return entity;
         }
 
-        public async Task<bool> DeleteAsync(T entity)
+        public async Task<bool> DeleteAsync(int id)
         {
+
+            var entity = await _context.Set<T>().FindAsync(id);
+
+            if (entity == null) return false;
+
             _context.Set<T>().Remove(entity);
             return await _context.SaveChangesAsync().ContinueWith(t => t.Result > 0);
         }
+        
 
         public async Task<IEnumerable<T>> GetAllAsync()
         {

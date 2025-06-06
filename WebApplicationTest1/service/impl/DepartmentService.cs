@@ -6,7 +6,6 @@ namespace WebApplicationTest1.service.impl
 {
     public class DepartmentService(IDepartmentRepository departmentRepository) : IDepartmentService
     {
-
         private readonly IDepartmentRepository _departmentRepository = departmentRepository ?? throw new ArgumentNullException(nameof(departmentRepository));
 
         public Task<DepartmentDto> CreateDepartmentAsync(DepartmentDto department)
@@ -14,14 +13,15 @@ namespace WebApplicationTest1.service.impl
             throw new NotImplementedException();
         }
 
-        public Task<bool> DeleteDepartmentAsync(int id)
+        public async Task<bool> DeleteDepartmentAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _departmentRepository.DeleteAsync(id);
         }
 
-        public Task<IEnumerable<DepartmentDto>> GetAllDepartmentsAsync()
+        public async Task<IEnumerable<DepartmentDto>> GetAllDepartmentsAsync()
         {
-            throw new NotImplementedException();
+            var departments = await _departmentRepository.GetAllAsync();
+            return [.. departments.Select(d => new DepartmentDto { Id = d.Id, Name = d.Name })];
         }
 
         public async Task<DepartmentDto?> GetDepartmentByIdAsync(int id)
