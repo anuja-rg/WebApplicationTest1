@@ -4,15 +4,11 @@ using WebApplicationTest1.repository;
 
 namespace WebApplicationTest1.service.impl
 {
-    public class DepartmentService : IDepartmentService
+    public class DepartmentService(IDepartmentRepository departmentRepository) : IDepartmentService
     {
 
-        private readonly IDepartmentRepository _departmentRepository;
+        private readonly IDepartmentRepository _departmentRepository = departmentRepository ?? throw new ArgumentNullException(nameof(departmentRepository));
 
-        public DepartmentService(IDepartmentRepository departmentRepository)
-        {
-            _departmentRepository = departmentRepository ?? throw new ArgumentNullException(nameof(departmentRepository));
-        }
         public Task<DepartmentDto> CreateDepartmentAsync(DepartmentDto department)
         {
             throw new NotImplementedException();

@@ -4,14 +4,9 @@ using WebApplicationTest1.repository;
 
 namespace WebApplicationTest1.service.impl
 {
-    public class EmployeeService : IEmployeeService
+    public class EmployeeService(IEmployeeRepository employeeRepository) : IEmployeeService
     {
-        private readonly IEmployeeRepository _employeeRepository;
-
-        public EmployeeService(IEmployeeRepository employeeRepository)
-        {
-            _employeeRepository = employeeRepository ?? throw new ArgumentNullException(nameof(employeeRepository));
-        }
+        private readonly IEmployeeRepository _employeeRepository = employeeRepository ?? throw new ArgumentNullException(nameof(employeeRepository));
 
         public Task<IEnumerable<Employee>> CreateAsync(EmployeeDto employeeDto)
         {
