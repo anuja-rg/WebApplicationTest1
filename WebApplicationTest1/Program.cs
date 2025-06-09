@@ -1,9 +1,12 @@
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using WebApplicationTest1;
+using WebApplicationTest1.CQRS.Commands;
 using WebApplicationTest1.repository;
 using WebApplicationTest1.repository.repoImpl;
 using WebApplicationTest1.service;
 using WebApplicationTest1.service.impl;
+using WebApplicationTest1.validator;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +25,13 @@ builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
 // registering services
 builder.Services.AddScoped<IDepartmentService, DepartmentService>();
 builder.Services.AddScoped<IEmployeeService, EmployeeService>();
+
+// registering MediatR
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(CreateDepartmentHandler).Assembly));
+
+
+// registering validators
+builder.Services.AddScoped<IValidator<CreateDepartmentCommand>, CreateDepartmentValidator>();
 
 
 builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));

@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WebApplicationTest1.dto;
 using WebApplicationTest1.service;
-using WebApplicationTest1.validator;
 
 namespace WebApplicationTest1.Controllers
 {
@@ -20,28 +19,20 @@ namespace WebApplicationTest1.Controllers
         [HttpPost]
         public async Task<IActionResult> AddEmployee([FromBody] EmployeeDto employeeDto)
         {
-
-            //var  validator = new EmployeeValidator();
-            //var validationResult = await validator.ValidateAsync(employeeDto);
-
-            //if (!validationResult.IsValid)
-            //{
-            //    return BadRequest(validationResult.Errors.Select(e => e.ErrorMessage));
-            //}
             if (employeeDto == null)
             {
                 return BadRequest("Employee cannot be null");
             }
+            //var validator = new EmployeeValidator();
+            //var validatedResult = validator.Validate(employeeDto);
+
+            //if(!validatedResult.IsValid)
+            //{
+            //    return BadRequest(validatedResult.Errors.Select(e => e.ErrorMessage));
+            //}
             try
             {
 
-                var validator = new EmployeeValidator();
-                var validatedResult = validator.Validate(employeeDto);
-
-                if(!validatedResult.IsValid)
-                {
-                    return BadRequest(validatedResult.Errors.Select(e => e.ErrorMessage));
-                }
                 var result = await _employeeService.CreateAsync(employeeDto);
 
                 return CreatedAtAction(nameof(AddEmployee), new { id = result.Name }, result);
