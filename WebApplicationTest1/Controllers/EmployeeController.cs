@@ -34,8 +34,16 @@ namespace WebApplicationTest1.Controllers
             }
             try
             {
+
+                var validator = new EmployeeValidator();
+                var validatedResult = validator.Validate(employeeDto);
+
+                if(!validatedResult.IsValid)
+                {
+                    return BadRequest(validatedResult.Errors.Select(e => e.ErrorMessage));
+                }
                 var result = await _employeeService.CreateAsync(employeeDto);
-                //return CreatedAtAction(nameof(result), new {id = result.Name}, result);
+
                 return CreatedAtAction(nameof(AddEmployee), new { id = result.Name }, result);
             }
             catch (ArgumentException ex)

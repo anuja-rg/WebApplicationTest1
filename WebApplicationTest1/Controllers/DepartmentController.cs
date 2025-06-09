@@ -15,6 +15,7 @@ namespace WebApplicationTest1.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetDepartmentById(int id)
         {
+           
             var department = await _departmentService.GetDepartmentByIdAsync(id);
             if (department == null)
             {
