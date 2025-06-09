@@ -21,10 +21,14 @@ namespace WebApplicationTest1
                 .Property(e => e.Name)
                 .HasMaxLength(50)
                 .IsRequired();
+            //modelBuilder.Entity<Department>()
+            //    .HasMany(d => d.Employees)
+            //    .WithOne(e => e.DepartmentInfo)
+            //    .HasForeignKey(e => e.DepartmentId);
             modelBuilder.Entity<Department>()
-                .HasMany(d => d.Employees)
-                .WithOne(e => e.DepartmentInfo)
-                .HasForeignKey(e => e.DepartmentId);
+                .Property(d => d.Name)
+                .HasMaxLength(50)
+                .IsRequired();
             modelBuilder.Entity<EmployeeProject>()
                 .HasKey(ep => new { ep.EmployeeId, ep.ProjectId });
             modelBuilder.Entity<EmployeeProject>()
