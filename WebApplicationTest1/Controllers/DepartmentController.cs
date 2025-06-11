@@ -28,5 +28,13 @@ namespace WebApplicationTest1.Controllers
             var createdDepartment = await _mediator.Send(command);
             return CreatedAtAction(nameof(CreateDepartment), new { id = createdDepartment.Id }, createdDepartment);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllDepartments()
+        {
+            var query = new GetAllDepartmentsQuery();
+            var departments = await _mediator.Send(query);
+            return Ok(departments);
+        }
     }
 }

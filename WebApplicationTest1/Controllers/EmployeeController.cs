@@ -1,8 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using WebApplicationTest1.CQRS.Commands;
-using WebApplicationTest1.dto;
-using WebApplicationTest1.service;
 
 namespace WebApplicationTest1.Controllers
 {
@@ -10,7 +8,6 @@ namespace WebApplicationTest1.Controllers
     [Route("api/[controller]")]
     public class EmployeeController(IMediator mediator) : ControllerBase
     {
-        //private readonly IEmployeeService _employeeService = employeeService ?? throw new ArgumentNullException(nameof(employeeService));
         private readonly IMediator _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
 
         [HttpGet]
