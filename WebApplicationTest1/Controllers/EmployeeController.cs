@@ -11,10 +11,13 @@ namespace WebApplicationTest1.Controllers
         private readonly IMediator _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
 
         [HttpGet]
-        public ActionResult<string> Get()
+        public async Task<IActionResult> GetAllEmployees()
         {
-            return "Hello, Employee!";
+            var query = new GetAllEmployeesQuery();
+            var employees = await _mediator.Send(query);
+            return Ok(employees);
         }
+       
 
         [HttpPost]
         public async Task<IActionResult> AddEmployee([FromBody] CreateEmployeeCommand command)
