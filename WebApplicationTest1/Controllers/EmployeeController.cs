@@ -10,6 +10,14 @@ namespace WebApplicationTest1.Controllers
     {
         private readonly IMediator _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
 
+        [HttpPost]
+        public async Task<IActionResult> AddEmployee([FromBody] CreateEmployeeCommand command)
+        {
+           
+            var createdEmployee = await _mediator.Send(command);
+            return CreatedAtAction(nameof(AddEmployee), new { id = createdEmployee.Name }, createdEmployee);
+        }
+
         [HttpGet]
         public async Task<IActionResult> GetAllEmployees()
         {
@@ -18,13 +26,5 @@ namespace WebApplicationTest1.Controllers
             return Ok(employees);
         }
        
-
-        [HttpPost]
-        public async Task<IActionResult> AddEmployee([FromBody] CreateEmployeeCommand command)
-        {
-           
-            var createdEmployee = await _mediator.Send(command);
-            return CreatedAtAction(nameof(AddEmployee), new { id = createdEmployee.Name }, createdEmployee);
-        }
     }
 }
