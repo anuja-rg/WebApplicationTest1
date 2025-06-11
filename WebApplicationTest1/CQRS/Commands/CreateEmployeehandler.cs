@@ -5,9 +5,10 @@ using WebApplicationTest1.repository;
 
 namespace WebApplicationTest1.CQRS.Commands
 {
-    public class CreateEmployeehandler(IEmployeeRepository repository) : IRequestHandler<CreateEmployeeCommand, EmployeeDto>
+    public class CreateEmployeehandler(IEmployeeRepository repository, IDepartmentRepository departmentRepository) : IRequestHandler<CreateEmployeeCommand, EmployeeDto>
     {
         private readonly IEmployeeRepository _repository = repository ?? throw new ArgumentNullException(nameof(repository));
+        private readonly IDepartmentRepository _departmentRepository = departmentRepository ?? throw new ArgumentNullException(nameof(repository));
 
         public async Task<EmployeeDto> Handle(CreateEmployeeCommand request, CancellationToken cancellationToken)
         {

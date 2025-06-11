@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using WebApplicationTest1.CQRS.Commands;
 using WebApplicationTest1.dto;
 using WebApplicationTest1.service;
 
@@ -6,9 +8,10 @@ namespace WebApplicationTest1.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class EmployeeController(IEmployeeService employeeService) : ControllerBase
+    public class EmployeeController(IMediator mediator) : ControllerBase
     {
-        private readonly IEmployeeService _employeeService = employeeService ?? throw new ArgumentNullException(nameof(employeeService));
+        //private readonly IEmployeeService _employeeService = employeeService ?? throw new ArgumentNullException(nameof(employeeService));
+        private readonly IMediator _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
 
         [HttpGet]
         public ActionResult<string> Get()
@@ -17,34 +20,11 @@ namespace WebApplicationTest1.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddEmployee([FromBody] EmployeeDto employeeDto)
+        public async Task<IActionResult> AddEmployee([FromBody] CreateEmployeeCommand command)
         {
-            if (employeeDto == null)
-            {
-                return BadRequest("Employee cannot be null");
-            }
-            //var validator = new EmployeeValidator();
-            //var validatedResult = validator.Validate(employeeDto);
-
-            //if(!validatedResult.IsValid)
-            //{
-            //    return BadRequest(validatedResult.Errors.Select(e => e.ErrorMessage));
-            //}
-            try
-            {
-
-                var result = await _employeeService.CreateAsync(employeeDto);
-
-                return CreatedAtAction(nameof(AddEmployee), new { id = result.Name }, result);
-            }
-            catch (ArgumentException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
+           
+            var createdEmployee = await _mediator.Send(command);
+            return CreatedAtAction(nameof(AddEmployee), new { id = createdEmployee.Name }, createdEmployee);
         }
     }
 }
