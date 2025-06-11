@@ -21,6 +21,5 @@ namespace WebApplicationTest1.CQRS.Commands
             };
         }
     }
-    {
-    }
+   
 }

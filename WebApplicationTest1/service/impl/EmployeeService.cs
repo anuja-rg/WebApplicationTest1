@@ -11,14 +11,14 @@ namespace WebApplicationTest1.service.impl
 
         public async Task<EmployeeDto> CreateAsync(EmployeeDto employeeDto)
         {
-            var existingDepartment = await _departmentRepository.GetByIdAsync(employeeDto.DepartmentId) ?? throw new ArgumentException($"Department with ID {employeeDto.DepartmentId} does not exist.");
+            //var existingDepartment = await _departmentRepository.GetByIdAsync(employeeDto.DepartmentId) ?? throw new ArgumentException($"Department with ID {employeeDto.DepartmentId} does not exist.");
             Employee employee = new()
             {
                 //Id = employeeDto.Id,
                 Name = employeeDto.Name,
                 Age = employeeDto.Age,
                 DepartmentId = employeeDto.DepartmentId,
-                DepartmentInfo = existingDepartment,
+                //DepartmentInfo = existingDepartment,
                 EmployeeProjects = []
             };
 
